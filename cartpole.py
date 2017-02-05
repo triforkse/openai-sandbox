@@ -3,9 +3,11 @@
 import gym
 
 env = gym.make('CartPole-v0')
-env.reset()
+
 while True:
+    observation = env.reset()
     for _ in range(100):
         env.render()
-        env.step(env.action_space.sample())
-    env.reset()
+        action = env.action_space.sample()
+        observation, reward, done, info = env.step(action)
+        print(observation, reward, done, info)

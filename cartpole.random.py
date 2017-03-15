@@ -1,7 +1,6 @@
 #!/usr/local/bin/python3
 
 import gym
-import tensorflow as tf
 import numpy as np
 
 SIMULATION_LIMIT = 1000

@@ -1,12 +1,15 @@
 #!/usr/local/bin/python3
 
+#%% Setup
 import gym
 import numpy as np
+import matplotlib.pyplot as plt
 
-SIMULATION_LIMIT = 1000
-TRAINING_LIMIT = 100000
+SIMULATION_LIMIT = 200
+TRAINING_LIMIT = 10000
 
 env = gym.make('CartPole-v0')
+
 
 def run_episode(env, parameters, render=False):
     observation = env.reset()
@@ -21,20 +24,33 @@ def run_episode(env, parameters, render=False):
             break
     return totalreward
 
-# Randomly find good parameters
-best_reward = 0
-best_parameters = None
-for i in range(TRAINING_LIMIT):
-    parameters = np.random.rand(4) * 2 - 1
-    reward = run_episode(env, parameters)
-    if reward > best_reward:
-        best_reward = reward
-        best_parameters = parameters
-        print('New best after {:} iterations!'.format(i), best_reward, best_parameters)
-    if best_reward >= SIMULATION_LIMIT:
-        # We won't find anything better, so stop
-        break
 
-# Show our best parameters in a rendered simulation
+def train():
+    best_reward = 0
+    best_parameters = None
+    reward_history = []
+    for i in range(TRAINING_LIMIT):
+        parameters = np.random.rand(4) * 2 - 1
+        reward = run_episode(env, parameters)
+        if reward > best_reward:
+            best_reward = reward
+            best_parameters = parameters
+            print('New best after {:} iterations!\n'.format(i), best_reward,
+                  best_parameters)
+        reward_history.append(best_reward)
+        if best_reward >= SIMULATION_LIMIT:
+            # We won't find anything better, so stop
+            break
+    return best_parameters, reward_history
+
+
+#%% Training: randomly find good parameters
+params, hist = train()
+
+#%% Plot learning progress
+plt.plot(hist)
+plt.show()
+
+#%% Show our best parameters in a rendered simulation
 while True:
-    run_episode(env, best_parameters, render=True)
+    run_episode(env, params, render=True)

@@ -5,10 +5,10 @@ import gym
 import numpy as np
 import matplotlib.pyplot as plt
 
-SIMULATION_LIMIT = 200
+SIMULATION_LIMIT = 500
 TRAINING_LIMIT = 10000
 
-env = gym.make('CartPole-v0')
+env = gym.make('CartPole-v1')
 
 
 def run_episode(env, parameters, render=False):
@@ -35,8 +35,6 @@ def train():
         if reward > best_reward:
             best_reward = reward
             best_parameters = parameters
-            print('New best after {:} iterations!\n'.format(i), best_reward,
-                  best_parameters)
         reward_history.append(best_reward)
         if best_reward >= SIMULATION_LIMIT:
             # We won't find anything better, so stop
@@ -46,8 +44,6 @@ def train():
 
 #%% Training: randomly find good parameters
 params, hist = train()
-
-#%% Plot learning progress
 plt.plot(hist)
 plt.show()
 

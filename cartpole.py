@@ -2,7 +2,7 @@
 
 import gym
 
-env = gym.make('CartPole-v0')
+env = gym.make('CartPole-v1')
 
 while True:
     observation = env.reset()
